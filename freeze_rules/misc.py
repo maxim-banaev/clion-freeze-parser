@@ -3,32 +3,33 @@ from rules import NormalRule, desc
 
 def get_rules():
     rules = [
-        NormalRule(["CidrFilesViewHelper$2.customizeCellRenderer",
-                    "OCSearchScope.getExplicitlySpecifiedProjectSourceFiles"],
-                   desc("drawing project tree", "CPP-10691")),
-
         NormalRule(["PotemkinProgress.runInSwingThread"],
                    desc("Potemkin progress", bug="not a bug")),
+
+        NormalRule(["CidrFilesViewHelper$2.customizeCellRenderer",
+                    "OCSearchScope.getExplicitlySpecifiedProjectSourceFiles"],
+                   desc("Drawing project tree", bug="CPP-10691", fixed=181)),
 
         NormalRule(["AbstractTreeStructureBase.getChildElements",
                     "OCHeaderFileTypeDetector.detect"],
                    desc("Project view: file type detector")),
 
-        NormalRule(["FileSymbolTablesCache",
-                    "FileBasedIndexImpl$ChangedFilesCollector.ensureUpToDateAsync"],
-                   desc("File symbols cache: ensure up-to-date async")),
-
-        NormalRule(["editorActions.EnterHandler"],
-                   desc("Enter handler")),
-
-        NormalRule(["EditorGutterComponentImpl",
-                    "OCGotoAction.navigate"],
-                   desc("gutter -> goto")),
-
-        NormalRule(["CidrWatchpointHandler.cleanup"],
-                   desc("WA in stop breakpoint", "CPP-11330", fixed=181)),
-
         NormalRule(["Inet4AddressImpl.getLocalHostName"],
-                   desc("Slow getLocalHostName", "JRE-251", fixed=181)),
+                   desc("Slow getLocalHostName", bug="JRE-251", fixed=181)),
+
+        NormalRule(["ClangDaemonFormatProvider.findClangFormatContent",
+                    "options.CodeStyle.getSettings"],
+                   desc("Freezes in CodeStyle.getSettings", bug="IDEA-218532", fixed=193)),
+
+        NormalRule(["codeStyle.CodeStyleFacadeImpl.getLineIndent"],
+                   desc("getLineIndent() leads to symbol building", bug="CPP-10486")),
+
+        NormalRule(["usages.UsageInfo2UsageAdapter.getText",
+                    "editor.colors.OCSyntaxHighlighterFactory.getSyntaxHighlighter"],
+                   desc("Get Syntax highlighter in Find Usage dialog may lead freeze EDT", bug="CPP-17472")),
+
+        NormalRule(["mac.touchbar.TouchBar"],
+                   desc("Touchbar action updates might lead to freezes", bug="CPP-13953")),
+
     ]
     return rules

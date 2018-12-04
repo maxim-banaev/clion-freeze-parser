@@ -6,99 +6,132 @@ ENSURE_PARSED = "LazyParseableElement.getFirstChildNode"
 
 def get_rules():
     rules = [
-        NormalRule(["PsiElement2UsageTargetAdapter.isValid",
+        # Find Usage
+        NormalRule(["findUsages.PsiElement2UsageTargetAdapter.isValid",
                     ENSURE_PARSED],
-                   desc("usages view", "CPP-8459")),
+                   desc("Usages View may cause a freeze on update", bug="CPP-8459")),
 
-        NormalRule(["UsageInfo2UsageAdapter.isValid",
+        NormalRule(["usages.UsageInfo2UsageAdapter.isValid",
                     ENSURE_PARSED],
-                   desc("usages view", "CPP-8459")),
+                   desc("Usages View may cause a freeze on update", bug="CPP-8459")),
 
-        NormalRule(["UsageViewImpl.checkNodeValidity",
+        NormalRule(["usages.impl.UsageViewImpl.checkNodeValidity",
                     ENSURE_PARSED],
-                   desc("usages view", "CPP-8459")),
+                   desc("Usages View may cause a freeze on update", bug="CPP-8459")),
 
-        NormalRule(["BraceHighlightingHandler.lookForInjectedAndMatchBracesInOtherThread",
+        NormalRule(["actions.SearchEverywhereAction",
+                    "symbols.OCSymbolBase.canNavigate",
                     ENSURE_PARSED],
-                   desc("brace matcher", "IDEA-177314")),
+                   desc("Search everywhere -> canNavigate -> reparse", bug="CPP-11711", fixed=182)),
 
+        NormalRule(["actions.FindInPathAction.actionPerformed",
+                    "find.impl.FindInProjectUtil.setDirectoryName",
+                    "symbols.OCSymbolBase.locateDefinition",
+                    ENSURE_PARSED],
+                   desc("Find in path -> locate definition -> reparse")),
+
+        # Highlighting
+        NormalRule(["highlighting.BraceHighlightingHandler.lookForInjectedAndMatchBracesInOtherThread",
+                    ENSURE_PARSED],
+                   desc("Highlighting matching brackets", bug="IDEA-177314", fixed=173)),
+
+        NormalRule(["highlighting.HighlightUsagesHandlerFactoryBase.createHighlightUsagesHandler",
+                    ENSURE_PARSED],
+                   desc("Highlight Usages pass -> reparse", bug="CPP-9373", fixed=181)),
+
+        # Folding
         NormalRule(["ComponentStoreImpl.save",
-                    "TextEditorState.getFoldingState",
+                    "text.TextEditorState.getFoldingState",
                     ENSURE_PARSED],
-                   desc("Save folding state", "CPP-10639", fixed=173)),
+                   desc("Saving folding state", bug="CPP-10639", fixed=173)),
 
-        NormalRule(["CodeFoldingManagerImpl.writeFoldingState",
+        NormalRule(["folding.impl.CodeFoldingManagerImpl.writeFoldingState",
                     ENSURE_PARSED],
-                   desc("Save folding state", "CPP-10639", fixed=173)),
+                   desc("Saving folding state", bug="CPP-10639", fixed=173)),
 
-        NormalRule(["CodeFoldingManagerImpl.saveFoldingState",
+        NormalRule(["folding.impl.CodeFoldingManagerImpl.saveFoldingState",
                     ENSURE_PARSED],
-                   desc("Save folding state", "CPP-10639", fixed=173)),
+                   desc("Saving folding state", bug="CPP-10639", fixed=173)),
 
-        NormalRule(["HighlightUsagesHandlerFactoryBase.createHighlightUsagesHandler",
-                    ENSURE_PARSED],
-                   desc("create IdentifierHighlighterPass pass", "CPP-9373", fixed=181)),
-
-        NormalRule(["SearchEverywhereAction", "OCSymbolBase.canNavigate",
-                    ENSURE_PARSED],
-                   desc("Search everywhere -> canNavigate -> reparse")),
-
-        NormalRule(["FileHyperlinkInfoBase.navigate",
-                    ENSURE_PARSED],
-                   desc("File hyper links: reparse", "CPP-11601", fixed=181)),
-
-        NormalRule(["FindInPathAction.actionPerformed",
-                    "FindInProjectUtil.setDirectoryName",
-                    "OCSymbolBase.locateDefinition",
-                    ENSURE_PARSED],
-                   desc("Find in path: reparse")),
-
-        NormalRule(["OCAutoFormatTypedHandler.execute",
-                    "PsiUtilBase.getLanguageInEditor",
-                    ENSURE_PARSED],
-                   desc("Auto format typed handler: get language and reparse")),
-
-        NormalRule(["FileSymbolTablesCache$OCCodeBlockModificationListener.treeChanged",
-                    ENSURE_PARSED],
-                   desc("FileSymbolTablesCache$OCCodeBlockModificationListener.treeChanged")),
-
-        NormalRule(["NextOccurenceAction.go",
-                    ENSURE_PARSED],
-                   desc("next occurence -> reparse")),
-
-        NormalRule(["DocumentWindowImpl.isValid",
-                    "ShredImpl.isValid",
-                    ENSURE_PARSED],
-                   desc("DocumentWindowImpl.isValid -> reparse")),
-
-        NormalRule(["MyAutoScrollFromSourceHandler",
-                    "SelectInTargetPsiWrapper.selectIn",
-                    ENSURE_PARSED],
-                   desc("Autoscroll to source -> reparse")),
-
-        NormalRule(["GotoDeclarationAction.update",
-                    ENSURE_PARSED],
-                   desc("Goto declaration update -> reparse")),
-
-        NormalRule(["SelectWordHandler.doExecute",
-                    ENSURE_PARSED],
-                   desc("Select word/expand selection -> reparse", "CPP-11901")),
-
-        NormalRule(["CodeFoldingManagerImpl$1.mouseMoved",
+        NormalRule(["folding.impl.CodeFoldingManagerImpl$1.mouseMoved",
                     ENSURE_PARSED],
                    desc("Folding + mouse moved -> reparse")),
 
-        NormalRule(["TextEditorPsiDataProvider.getData",
+        # Formatting
+        NormalRule(["formatting.OCAutoFormatTypedHandler.execute",
+                    "PsiUtilBase.getLanguageInEditor",
                     ENSURE_PARSED],
-                   desc("TextEditorPsiDataProvider -> reparse", "CPP-11936")),
+                   desc("Auto format typed handler: get language and reparse", bug="CPP-13581")),
+
+        NormalRule(["symtable.FileSymbolTablesCache$OCCodeBlockModificationListener.treeChanged",
+                    ENSURE_PARSED],
+                   desc("FileSymbolTablesCache$OCCodeBlockModificationListener.treeChanged")),
+
+        # Actions
+        NormalRule(["actions.ReformatCodeAction.actionPerformed",
+                    ENSURE_PARSED],
+                   desc("Document commit while reformat code", bug="CPP-17138")),
+
+        NormalRule(["actions.NextOccurenceAction.go",
+                    ENSURE_PARSED],
+                   desc("next occurrence -> reparse")),
+
+        NormalRule(["actions.GotoDeclarationAction.update",
+                    ENSURE_PARSED],
+                   desc("Goto declaration update -> reparse")),
+
+        NormalRule(["editorActions.SelectWordHandler.doExecute",
+                    ENSURE_PARSED],
+                   desc("Select word/expand selection -> reparse", bug="CPP-11901")),
+
+        NormalRule(["editorActions.PasteHandle",
+                    ENSURE_PARSED],
+                   desc("Paste function from huge header -> reparse", bug="CPP-14849")),
+
+        NormalRule(["editorActions.CutHandler",
+                    ENSURE_PARSED],
+                   desc("Cut function from huge header -> reparse", bug="CPP-14849")),
+
+        NormalRule(["actions. BaseRefactoringAction.actionPerformed",
+                    ENSURE_PARSED],
+                   desc("Replace in path -> reparse", bug="CPP-16170")),
+
+        NormalRule(["editorActions.BackspaceHandler.handleBackspace",
+                    ENSURE_PARSED],
+                   desc("Delete semicolon in member variable declaration in header file -> reparse", bug="CPP-12901")),
 
         NormalRule(["CtrlMouseHandler",
                     "getEditorForInjectedLanguageNoCommit",
                     ENSURE_PARSED],
-                   desc("CtrlMouseHandler + injected editor", "CPP-11610")),
+                   desc("CtrlMouseHandler + injected editor", bug="CPP-11610")),
+
+        NormalRule(["filters.FileHyperlinkInfoBase.navigate",
+                    ENSURE_PARSED],
+                   desc("File hyper links -> reparse", bug="CPP-11601")),
+
+        NormalRule(["MyAutoScrollFromSourceHandler",
+                    "SelectInTargetPsiWrapper.selectIn",
+                    ENSURE_PARSED],
+                   desc("Auto scroll to source -> reparse", bug="CPP-11591")),
+
+        NormalRule(["text.TextEditorPsiDataProvider.getData",
+                    ENSURE_PARSED],
+                   desc("TextEditorPsiDataProvider -> reparse", bug="CPP-11936")),
 
         NormalRule(["documentation.QuickDocOnMouseOverManager",
                     ENSURE_PARSED],
-                   desc("Quick Documentation on mouse move -> reparse", "CPP-12831")),
+                   desc("Quick Documentation on mouse move -> reparse", bug="CPP-12831")),
+
+        NormalRule(["SmartPointerManagerImpl.updatePointerTargetsAfterReparse",
+                    ENSURE_PARSED],
+                   desc("Document commit while updating smart psi pointers", bug="CPP-13493")),
+
+        NormalRule(["InjectedLanguageManagerImpl.disposeInvalidEditors",
+                    ENSURE_PARSED],
+                   desc("InjectedLanguageManagerImpl.disposeInvalidEditors causes reparse in EDT", bug="CPP-17241")),
+
+        NormalRule(["InspectionResultsView.showInRightPanel",
+                    ENSURE_PARSED],
+                   desc("Inspection results view might lead to freezes on click", bug="CPP-13984"))
     ]
     return rules

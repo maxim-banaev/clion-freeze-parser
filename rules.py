@@ -2,9 +2,12 @@
 
 def _contains_frames(frames, thread_info):
     """
-    :param frames: List[str]
-    :param thread_info: hreadInfo
-    :return:
+    Internal function which is check whether thread_info contains all frames
+    :type frames: list(str)
+    :param frames: frames from particular rule
+    :type thread_info: ThreadInfo
+    :param thread_info: processed thread info
+    :return: True if it contains
     """
     for f in frames:
         found = False
@@ -23,15 +26,18 @@ class NormalRule:
     """
     def __init__(self, frame_seq, message):
         """
-        :param frame_seq: List[str]
-        :param message: str
+        :type frame_seq: list(str)
+        :param frame_seq: sequence of dump call
+        :type message: str
+        :param message: rule description
         """
         self.frame_seq = frame_seq
         self.message = message
 
     def is_matched(self, dump_file):
         """
-        :param dump_file: DumpFileInfo
+        :type dump_file: DumpFileInfo
+        :param dump_file:
         :return:
         """
         edt_thread_info = dump_file.get_edt_info()
@@ -42,7 +48,7 @@ class NormalRule:
         return False
 
 
-def desc(text, bug="CPP-?????", fixed=None):
+def desc(text, bug='CPP-?????', fixed=None):
     fixed_text = ("fixed in " + str(fixed) + " " if fixed else "")
     return fixed_text + text + " (" + bug + ")"
 
@@ -63,8 +69,9 @@ def is_waiting_for_write_lock(edt_thread_info):
 
 def has_cidr(info):
     """
-    :param info: ThreadInfo
-    :return:
+    :type info: ThreadInfo
+    :param info:
+    :return: True if `cidr` in ThreadInfo
     """
     for frame in info.frames:
         if "cidr" in frame:
@@ -74,8 +81,9 @@ def has_cidr(info):
 
 def process_custom(dump_file):
     """
-    :param dump_file: DumpFileInfo
-    :return: Optional[str]
+    :type dump_file: DumpFileInfo
+    :param dump_file:
+    :return: Optional(str)
     """
     edt_thread_info = dump_file.get_edt_info()
     if edt_thread_info is None:

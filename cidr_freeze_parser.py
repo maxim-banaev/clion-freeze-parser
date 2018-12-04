@@ -2,21 +2,13 @@
 import os
 import sys
 import time
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 
 from dump_file import parse_dump_file
 from rules import process_custom
+from freeze_rules import get_rules
 
-import freeze_rules
-
-FRAME_SEQ_TO_TICKET = \
-    freeze_rules.actions.get_rules() + \
-    freeze_rules.commit.get_rules() + \
-    freeze_rules.lazyReparse.get_rules() + \
-    freeze_rules.misc.get_rules() + \
-    freeze_rules.plugin.get_rules() + \
-    freeze_rules.resolve.get_rules() + \
-    freeze_rules.tests.get_rules()
+ThreadDumpInfo = namedtuple('ThreadDumpInfo', ('file_name', 'messages', 'lines'))
 
 
 def print_usage():
@@ -29,9 +21,9 @@ def extract_edt_call_stack(lines):
     :param lines: List[str] param. List of all file lines.
     :return: list of EDT stack trace calls
     """
-    res = []
-    in_edt = False
-    before_ats = True
+    edt = list()
+    in_edt, before_ats = False, True
+
     for l in lines:
         if not in_edt:
             if "AWT-EventQueue" in l:
@@ -39,23 +31,24 @@ def extract_edt_call_stack(lines):
         else:
             if l.startswith("\tat "):
                 before_ats = False
-                res.append(l)
+                edt.append(l)
             elif not before_ats:
                 if not l.strip():
                     break
 
-    return res
+    return edt
 
 
 def match_stack(stack):
     """
     Search EDT stack for known freeze described in FRAME_SEQ_TO_TICKET
+    :type DumpFileInfo
     :param stack:
     :return:
     """
     if stack is not None:
         messages = set()
-        for rule in FRAME_SEQ_TO_TICKET:
+        for rule in get_rules():
             message = rule.is_matched(stack)
             if message:
                 messages.add(message)
@@ -70,23 +63,18 @@ def match_stack(stack):
         return set()
 
 
-class ThreadDumpInfo:
-    def __init__(self, file_name, messages, lines):
-        self.file_name = file_name
-        self.messages = messages
-        self.lines = lines
-
-
 def process_thread_dump(file_name, lines):
     """
-    :param file_name:
-    :param lines: List[str] param
+    :type file_name: str
+    :param file_name: the name of processed text dump
+    :type lines: list(str)
+    :param lines: file lines in array
     :return: ThreadDumpInfo
     """
-    stack = extract_edt_call_stack(lines)
+    edt_stack = extract_edt_call_stack(lines)
     dump_info = parse_dump_file(lines)
     messages = match_stack(dump_info)
-    return ThreadDumpInfo(file_name, messages, stack)
+    return ThreadDumpInfo(file_name, messages, edt_stack)
 
 
 def process_file(file_name):

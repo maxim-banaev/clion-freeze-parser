@@ -3,8 +3,9 @@ from rules import NormalRule, desc
 
 def get_rules():
     rules = [
-        NormalRule(["xpathView.XPathAppComponent"],
-                   desc("xPathView plugin", "IDEA-199079"))
+        NormalRule(["FindPopupPanel",
+                    "TextMateHighlightingLexer.parseLine"],
+                   desc("TextMate line parser leads the freeze in Find Panel", bug="CPP-17116"))
     ]
 
     return rules
