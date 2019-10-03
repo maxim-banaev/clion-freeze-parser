@@ -102,10 +102,9 @@ def get_summary(infos):
         for t in info.messages:
             all_tickets[t] += 1
 
-    return "All found tickets:\n{}\nUnknown traces ({}):\n{}\n\n{}".format(
+    return "All found tickets:\n{}\nUnknown traces ({})\n{}".format(
         tickets_to_string(all_tickets),
         len(unknown),
-        "\n".join(unknown),
         "".join(detailed))
 
 
