@@ -17,6 +17,8 @@ def get_rules():
         NormalRule(["execution.debugger.OCEvaluator"],
                    desc("Evaluating variables during debugging might lead to freezes", bug="CPP-13122", fixed=193)),
 
+        NormalRule(["execution.debugger.OCDebuggerTypesHelper"],
+                   desc("Evaluating variables during debugging might lead to freezes", bug="CPP-13122", fixed=193)),
 
 
         NormalRule(["execution.testing.CidrTestWithScopeElementsFramework.getTestLinks"],
@@ -34,5 +36,9 @@ def get_rules():
 
         NormalRule(["execution.testing.google.CidrGoogleTestRunConfigurationData.checkData"],
                    desc("Initial tests scanning in big projects", bug="CPP-14242")),
+
+        NormalRule(["LineMarkerInfo.getLineMarkerTooltip",
+                    "execution.testing.CidrTestRunConfigurationProducer.setupConfigurationFromContext"],
+                   desc("Test line marker: tooltip")),
     ]
     return rules

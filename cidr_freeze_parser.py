@@ -155,8 +155,8 @@ def split_reports(filename, out_dir):
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
     os.makedirs(out_dir)
-    for id, dump in zip(parts[0::2], parts[1::2]):
-        with open(f'{out_dir}/{id.strip()}.txt', 'w+') as out_file:
+    for _id, dump in zip(parts[0::2], parts[1::2]):
+        with open(f'{out_dir}/{_id.strip()}.txt', 'w+') as out_file:
             out_file.write(
                 dump.replace('com.intellij.diagnostic.Freeze', 'AWT-EventQueue-0\njava.lang.Thread.State: RUNNABLE'))
 
