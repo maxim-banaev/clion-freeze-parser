@@ -9,7 +9,7 @@ from dump_file import parse_dump_file
 from rules import process_custom
 from freeze_rules import get_rules
 
-ThreadDumpInfo = namedtuple('ThreadDumpInfo', ('file_name', 'messages', 'lines'))
+ThreadDumpInfo = namedtuple('ThreadDumpInfo', 'file_name messages lines')
 
 
 def print_usage():

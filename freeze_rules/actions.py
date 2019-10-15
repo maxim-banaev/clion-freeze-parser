@@ -111,6 +111,9 @@ def get_rules():
                     "quickfixes.OCImportSymbolFix.fixAllSymbolsRecursively"],
                    desc("Add as parameter to constructor: import fix", bug="CPP-16431")),
 
+        NormalRule(["intentions.OCConvertToPropertyIntentionAction.isAvailable"],
+                   desc("OCConvertToPropertyIntentionAction.isAvailable", bug="CPP-17687")),
+
         # Find Usage / Search
         NormalRule(["OCSymbolWithQualifiedNameImpl.processAssociatedSymbols",
                     "actions.FindUsagesAction.actionPerformed"],
