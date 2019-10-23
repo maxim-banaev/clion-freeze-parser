@@ -64,7 +64,10 @@ def get_navigation_rules():
                    desc("Clicking on 'Goto associated symbol' line marker might freeze UI", bug="CPP-13876")),
 
         NormalRule(["navigation.OCSwitchToHeaderOrSourceRelatedProvider.getItems"],
-                   desc("Navigating to related symbol ", bug="CPP-7168", fixed=182)),
+                   desc("Navigating to related symbol", bug="CPP-7168", fixed=182)),
+
+        NormalRule(["navigation.GotoImplementationHandler.getSourceAndTargetElements"],
+                   desc("Go to Declaration action might lead freeze", bug="CPP-13969", fixed=192)),
     ]
     return rules
 
@@ -113,6 +116,11 @@ def get_rules():
 
         NormalRule(["intentions.OCConvertToPropertyIntentionAction.isAvailable"],
                    desc("OCConvertToPropertyIntentionAction.isAvailable", bug="CPP-17687")),
+
+        NormalRule(["intention.impl.ShowIntentionActionsHandler.availableFor",
+                    "quickfixes.OCQuickFix.isAvailable"],
+                   desc("OCConvertToPropertyIntentionAction.isAvailable", bug="CPP-17687")),
+
 
         # Find Usage / Search
         NormalRule(["OCSymbolWithQualifiedNameImpl.processAssociatedSymbols",
