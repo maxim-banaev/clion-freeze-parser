@@ -5,6 +5,11 @@ FileSymbolTablesCache = "symtable.FileSymbolTablesCache"
 
 def get_rules():
     rules = [
+
+        NormalRule([FileSymbolTablesCache,
+                    "symtable.FileSymbolTablesCache.invalidateDirtyIncludeFiles"],
+                   desc("EDT frees caused by symbols.symtable.FileSymbolTablesCache.invalidateDirtyIncludes",
+                        bug="CPP-20177")),
         NormalRule([FileSymbolTablesCache,
                     "vfs.newvfs.RefreshSessionImpl"],
                    desc("Freeze on updating a symbol table cache after VFS refresh", bug="CPP-15680")),
