@@ -5,6 +5,7 @@ import freeze_rules.actions
 import freeze_rules.clang
 import freeze_rules.editor
 import freeze_rules.execution
+import freeze_rules.jbr
 import freeze_rules.lazyReparse
 import freeze_rules.misc
 import freeze_rules.plugin
