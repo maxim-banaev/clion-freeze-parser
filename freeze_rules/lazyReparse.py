@@ -114,10 +114,6 @@ def get_rules():
                     ENSURE_PARSED],
                    desc("Auto scroll to source -> reparse", bug="CPP-11591")),
 
-        NormalRule(["text.TextEditorPsiDataProvider.getData",
-                    ENSURE_PARSED],
-                   desc("TextEditorPsiDataProvider -> reparse", bug="CPP-11936")),
-
         NormalRule(["documentation.QuickDocOnMouseOverManager",
                     ENSURE_PARSED],
                    desc("Quick Documentation on mouse move -> reparse", bug="CPP-12831")),
@@ -130,8 +126,17 @@ def get_rules():
                     ENSURE_PARSED],
                    desc("InjectedLanguageManagerImpl.disposeInvalidEditors causes reparse in EDT", bug="CPP-17241")),
 
+        NormalRule(["InjectedLanguageUtil.findInjectedPsiNoCommit",
+                    ENSURE_PARSED],
+                   desc("InjectedLanguageUtil.findInjectedPsiNoCommit causes reparse in EDT", bug="CPP-20445")),
+
         NormalRule(["InspectionResultsView.showInRightPanel",
                     ENSURE_PARSED],
-                   desc("Inspection results view might lead to freezes on click", bug="CPP-13984"))
+                   desc("Inspection results view might lead to freezes on click", bug="CPP-13984")),
+
+        NormalRule(["cidr.lang.psi.impl.OCTargetElementUtil.findTargetElement",
+                    ENSURE_PARSED],
+                   desc("OCTargetElementUtil.findTargetElement causes reparse in EDT", bug="CPP-20447"))
+
     ]
     return rules
