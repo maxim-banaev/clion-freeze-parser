@@ -122,6 +122,10 @@ def get_rules():
                     ENSURE_PARSED],
                    desc("Document commit while updating smart psi pointers", bug="CPP-13493")),
 
+        NormalRule(["SmartPsiElementPointerImpl.doRestoreElement",
+                    ENSURE_PARSED],
+                   desc("Lazy parsing while restoring smart psi pointers", bug="CPP-22505")),
+
         NormalRule(["InjectedLanguageManagerImpl.disposeInvalidEditors",
                     ENSURE_PARSED],
                    desc("InjectedLanguageManagerImpl.disposeInvalidEditors causes reparse in EDT", bug="CPP-17241")),
@@ -136,7 +140,16 @@ def get_rules():
 
         NormalRule(["cidr.lang.psi.impl.OCTargetElementUtil.findTargetElement",
                     ENSURE_PARSED],
-                   desc("OCTargetElementUtil.findTargetElement causes reparse in EDT", bug="CPP-20447"))
+                   desc("OCTargetElementUtil.findTargetElement causes reparse in EDT", bug="CPP-20447")),
+
+        NormalRule(["vim.group.copy.PutGroup.putTextAndSetCaretPosition",
+                    "vim.group.ChangeGroup.autoIndentRange",
+                    ENSURE_PARSED],
+                   desc("vim: putText -> autoIndentRange -> Lazy reparse in EDT", bug="CPP-20473")),
+
+        NormalRule(["completion.ml.common.RecentPlacesFeatures",
+                    ENSURE_PARSED],
+                   desc("completion.ml.common.RecentPlacesFeatures -> Lazy reparse in EDT", bug="CPP-22190"))
 
     ]
     return rules

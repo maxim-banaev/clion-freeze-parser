@@ -12,5 +12,9 @@ def get_rules():
                    desc("XDecoratedPeer.getLocationOnScreen may leed freeze",
                         bug="JBR-1820")),
 
+        NormalRule(["sun.font.FontDesignMetrics.stringWidth"],
+                   desc("Idea freezes with AppleSystemUIFont when Event Log is opened",
+                        bug="IDEA-235635")),
+
     ]
     return rules

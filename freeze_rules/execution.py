@@ -14,12 +14,14 @@ def get_rules():
         NormalRule(["execution.debugger.breakpoints.CidrWatchpointHandler.cleanup"],
                    desc("Stopping a debug session", bug="CPP-11330", fixed=181)),
 
+        NormalRule(["cidr.execution.debugger.OCEvaluatorHelper.convertExpression"],
+                   desc("Convert Expression during debugging might lead to freezes", bug="CPP-22507")),
+
         NormalRule(["execution.debugger.OCEvaluator"],
                    desc("Evaluating variables during debugging might lead to freezes", bug="CPP-13122", fixed=193)),
 
         NormalRule(["execution.debugger.OCDebuggerTypesHelper"],
                    desc("Evaluating variables during debugging might lead to freezes", bug="CPP-13122", fixed=193)),
-
 
         NormalRule(["execution.testing.CidrTestWithScopeElementsFramework.getTestLinks"],
                    desc("Searching for unit tests", bug="CPP-11735", fixed=183)),

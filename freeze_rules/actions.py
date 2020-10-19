@@ -1,5 +1,7 @@
 from rules import NormalRule, desc
 
+FIND_USAGE = "actions.FindUsagesAction.actionPerformed"
+
 
 def get_refactoring_rules():
     rules = [
@@ -48,6 +50,13 @@ def get_refactoring_rules():
 
         NormalRule(["refactoring.changeSignature.OCChangeSignatureProcessor.preprocessUsages"],
                    desc("Process usages while change signature", bug="CPP-15485")),
+
+        NormalRule(["refactoring.changeSignature.OCChangeSignatureActionHandler.findTargetMember"],
+                   desc("Change Signature: find target member", bug="CPP-22506")),
+
+
+        NormalRule(["openapi.editor.actions.SelectWordAtCaretAction"],
+                   desc("Freeze on selecting word at caret", bug="CPP-11901")),
     ]
 
     return rules
@@ -124,12 +133,16 @@ def get_rules():
 
         # Find Usage / Search
         NormalRule(["OCSymbolWithQualifiedNameImpl.processAssociatedSymbols",
-                    "actions.FindUsagesAction.actionPerformed"],
+                    FIND_USAGE],
                    desc("Find usages search associated targets", bug="CPP-12806")),
 
         NormalRule(["OCSymbolWithQualifiedNameImpl.getDefinitionSymbol",
-                    "actions.FindUsagesAction.actionPerformed"],
+                    FIND_USAGE],
                    desc("Find usages search definitions", bug="CPP-14785")),
+
+        NormalRule(["cidr.lang.symbols.symtable.OCGlobalProjectSymbolsCache",
+                    FIND_USAGE],
+                   desc("Find usages freeze caused by OCGlobalProjectSymbolsCache", bug="CPP-22504")),
 
         NormalRule(["actions.SearchAgainAction.actionPerformed"],
                    desc("Search again", bug="CPP-14288")),
